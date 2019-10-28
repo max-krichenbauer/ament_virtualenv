@@ -1,0 +1,23 @@
+language: python
+python:
+  - "2.7"
+env:
+  global:
+    - ROS_WORKSPACE=$TRAVIS_BUILD_DIR
+before_install:
+  - sudo apt-get -y install cppcheck cccc
+install:
+  - pip install haros haros-plugins
+  - haros init
+  # Current pip version of HAROS is outdated, use repository instead
+  # - mkdir -p $HOME/haros/data
+  # - cd $TRAVIS_BUILD_DIR
+  # - haros --cwd $TRAVIS_BUILD_DIR --home $HOME/haros --config $TRAVIS_BUILD_DIR/haros/configs.yaml analyse --project-file $TRAVIS_BUILD_DIR/haros/project.yaml --data-dir $HOME/haros/data
+  - cd $HOME
+  - git clone --depth 1 https://github.com/git-afsantos/haros.git
+  - mkdir -p $HOME/haros/data
+  - python $HOME/haros/haros-runner.py --cwd $TRAVIS_BUILD_DIR --home $HOME/haros --config $TRAVIS_BUILD_DIR/haros/configs.yaml analyse --project-file $TRAVIS_BUILD_DIR/haros/project.yaml --data-dir $HOME/haros/data
+script:
+  - python $TRAVIS_BUILD_DIR/haros/check_result.py
+notifications:
+  email: false

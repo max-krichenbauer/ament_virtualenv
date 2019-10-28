@@ -1,0 +1,7 @@
+%YAML 1.1
+---
+# Ignore conflicting or meaningless linter rules
+# (cpplint rules about opening curly braces contradict another)
+analysis:
+  ignore:
+    rules: ["haros_plugin_cpplint:opening_curly_brace", "haros_plugin_cpplint:opening_brace_line"]
